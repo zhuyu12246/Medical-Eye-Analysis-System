@@ -1,3 +1,4 @@
+[English](README.en.md) | [中文](README.md)
 # Medical Eye Analysis System
 
 ## Project Overview
