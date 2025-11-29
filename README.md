@@ -73,15 +73,6 @@
 curl -X POST "http://localhost:8001/run/mb/enhance" -H "Content-Type: multipart/form-data" -F "file=@test.jpg"
 ```
 
-## 贡献指南
-
-欢迎贡献代码和文档。请遵循以下步骤：
-
-1. Fork 仓库
-2. 创建新分支 (`git checkout -b feature/new-feature`)
-3. 提交更改 (`git commit -am 'Add new feature'`)
-4. 推送分支 (`git push origin feature/new-feature`)
-5. 创建 Pull Request
 
 ## 许可证
 
