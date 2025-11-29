@@ -1,0 +1,35 @@
+# base command example
+# build
+# sudo docker build -t cpf-mb-gateway:v0.02 -f Dockerfile-MBGateway .
+# clean
+# sudo docker rm $(sudo docker ps -a -q) -f
+# sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+# test
+# sudo docker run -it cpf-mb-gateway:v0.02 /bin/bash
+# sudo docker exec -it d5a710122bf9 /bin/bash
+# output
+# sudo docker save -o cpf-mb-gateway_0.02.tar cpf-mb-gateway:v0.02
+# sudo docker load -i cpf-mb-gateway_0.02.tar
+
+
+# pytorch ngc docker
+FROM nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.11-py3
+
+# runtime env
+ENV PYTHONPATH "${PYTHONPATH}:/workspace"
+
+# copy code
+COPY ./Service /workspace/Service
+COPY ./Common /workspace/Common
+COPY ./ThirdPart /workspace/ThirdPart
+
+# pip
+COPY ./requirements.txt /workspace/requirements.txt
+
+# install common
+RUN pip3 install -r /workspace/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ngc opencv bug fix
+RUN pip3 install --user --upgrade opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# command
+CMD ["python3", "/workspace/Service/TaskMain/main.py"]

@@ -1,0 +1,38 @@
+# base command example
+# build
+# sudo docker build -t cpf-mb-enhance:v0.01 -f Dockerfile-MBEnhance .
+# clean
+# sudo docker rm $(sudo docker ps -a -q) -f
+# sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+# test
+# sudo docker run -it cpf-mb-enhance:v0.01 /bin/bash
+# sudo docker exec -it d5a710122bf9 /bin/bash
+# output
+# sudo docker save -o cpf-mb-enhance_0.01.tar cpf-mb-enhance:v0.01
+# sudo docker load -i cpf-mb-enhance_0.01.tar
+
+
+# pytorch ngc docker
+FROM nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.11-py3
+
+# runtime env
+ENV PYTHONPATH "${PYTHONPATH}:/workspace"
+
+# copy code
+COPY ./Common /workspace/Common
+COPY ./Service/MBEnhance /workspace/Service/MBEnhance
+COPY ./ThirdPart /workspace/ThirdPart
+
+# resources
+COPY ./resources/StillGAN /workspace/resources/StillGAN
+
+# pip
+COPY ./requirements.txt /workspace/requirements.txt
+
+# install common
+RUN pip3 install -r /workspace/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ngc opencv bug fix
+RUN pip3 install --user --upgrade opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# command
+CMD ["python3", "/workspace/Service/MBEnhance/main.py"]

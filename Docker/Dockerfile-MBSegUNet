@@ -1,0 +1,38 @@
+# base command example
+# build
+# sudo docker build -t cpf-mb-seg-unet:v0.02 -f Dockerfile-MBSegUNet .
+# clean
+# sudo docker rm $(sudo docker ps -a -q) -f
+# sudo docker rmi $(sudo docker images -f "dangling=true" -q)
+# test
+# sudo docker run -it cpf-mb-seg-unet:v0.02 /bin/bash
+# sudo docker exec -it d5a710122bf9 /bin/bash
+# output
+# sudo docker save -o cpf-mb-seg-unet_0.02.tar cpf-mb-seg-unet:v0.02
+# sudo docker load -i cpf-mb-seg-unet_0.02.tar
+
+
+# pytorch ngc docker
+FROM nvcr.io/nvidia/l4t-pytorch:r35.1.0-pth1.11-py3
+
+# runtime env
+ENV PYTHONPATH "${PYTHONPATH}:/workspace"
+
+# copy code
+COPY ./Common /workspace/Common
+COPY ./Service/MBSeg /workspace/Service/MBSeg
+COPY ./ThirdPart /workspace/ThirdPart
+
+# resources
+COPY ./resources/Segmentation/state-401-401-dict.pth /workspace/resources/Segmentation/state-401-401-dict.pth
+
+# pip
+COPY ./requirements.txt /workspace/requirements.txt
+
+# install common
+RUN pip3 install -r /workspace/requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+# ngc opencv bug fix
+RUN pip3 install --user --upgrade opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# command
+CMD ["python3", "/workspace/Service/MBSeg/MBUNet/main.py"]
