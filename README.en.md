@@ -73,15 +73,6 @@ The system consists of the following main components:
 curl -X POST "http://localhost:8001/run/mb/enhance" -H "Content-Type: multipart/form-data" -F "file=@test.jpg"
 ```
 
-## Contribution Guidelines
-
-Contributions to code and documentation are welcome. Please follow these steps:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
 
 ## License
 
