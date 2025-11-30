@@ -34,7 +34,7 @@
 
 1. 克隆仓库：
    ```bash
-   git clone https://gitee.com/baihaowen/medical-eye-analysis.git
+   git clone https://github.com/zhuyu12246/Medical-Eye-Analysis-System.git
    ```
 
 2. 安装依赖：
